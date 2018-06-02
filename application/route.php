@@ -10,7 +10,9 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
+Route::rule('/', 'admin/index/index');
 Route::rule('new/:id', 'index/index/dbtest');
+Route::rule('json/:id', 'index/index/jsontest');
 
 return [
     '__pattern__' => [

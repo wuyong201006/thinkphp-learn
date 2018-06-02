@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Request;
 
 use app\index\model\User;
 
@@ -37,6 +38,13 @@ class Index extends Controller
 		$this->assign('result', $data);
 		
 		// return $this->fetch();
+		return json($data);
+	}
+	
+	public function jsontest(){
+		$data = Db::name('student')->select();
+		
+		$data = Request::instance()->header();
 		return json($data);
 	}
 }
