@@ -2,10 +2,10 @@
 namespace app\admin\model;
 use think\Model;
 
-class User extends Model
+class Visitor extends Model
 {
 	// 设置当前模型对应的完整数据表名称
-    protected $table = 'student';
+    protected $table = 'visitor';
 	
 	/*// 设置当前模型的数据库连接
 	protected $connection = [
@@ -36,54 +36,26 @@ class User extends Model
 		parent::initialize();
 	}
 	
-	public function addUser($username, $password, $visitorId, $recomId, $registerDate)
+	public function addVisitor($id, $ip, $url, $visitorDate)
 	{
-		$user = new User();
-		$user->username = $username;
-		$user->password = $password;
-		$user->registerDate = $registerDate;
-		return $user->save();
+		$visitor = new Visitor();
+		$visitor->id = $id;
+        $visitor->ip = $ip;
+        $visitor->url = $url;
+        $visitor->visitorDate = $visitorDate;
+		return $visitor->save();
 	}
 	
-	public function updateUser($password)
-	{
-		$user = new User();
-		$user->password = $password;
-		return $user->save();
-	}
 	
-	public function updateUserAsset($coinId){
-		$user = new User();
-		$user->coinId = $coinId;
-		return $user;
-	}
-
-	public function deleteUser($userId)
-	{
-		$user = User::get($userId);
-		$result = null;
-		if($user){
-			$result = $user->delete();
-		}
-
-		return $result; 
-	}
-	
-	public function getUser($username, $password){
-		$object = User::get(['username'=>$username,'password'=>$password]);
+	public function getVisitorById($id){
+		$object = Visitor::get(['id'=>$id]);
 
 		return $object;
 	}
 	
-	public function getUserById($id){
-		$object = User::get(['id'=>$id]);
-
-		return $object;
-	}
-
-	public function getUserList()
+	public function getVisitorList()
 	{
-		$list = User::all();
+		$list = Visitor::all();
 		if($list){
 			$list = collection($list)->toArray();
 		}

@@ -10,7 +10,9 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
-Route::rule('/', 'admin/index/index');
+Route::rule('visitor', 'admin/VisitorController/addVisitor', 'post');
+Route::rule('login', 'admin/LoginController/login', 'post');
+Route::rule('register', 'admin/login/register', 'post');
 Route::rule('new/:id', 'index/index/dbtest');
 Route::rule('json/:id', 'index/index/jsontest');
 
