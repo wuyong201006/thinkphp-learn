@@ -45,16 +45,21 @@ class Asset extends Model
 		return $asset->save();
 	}
 	
-	public function updateCoin($coin, $updateDate){
-        $asset = new Asset();
-        $asset->coin = $coin;
-        $asset->updateDate = $updateDate;
-		return $asset->save();
+	public function updateCoin($id, $coin, $updateDate){
+        $asset = Asset::get(['id'=>$id]);
+        if($asset){
+            $asset->coin = $asset->coin+$coin;
+            $asset->updateDate = $updateDate;
+		    return $asset->save();
+        }
+
+        return null;
+        
     }
 
 	public function getCoinById($id){
 		$object = Asset::get(['id'=>$id]);
 
-		return $object;
+		return $object->coin;
 	}
 }

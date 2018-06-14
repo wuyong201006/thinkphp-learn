@@ -20,7 +20,11 @@ function getRandomId(){
 }
 
 function IsJson($data){
-    json_decode($data);
+    try{
+        json_decode($data);
+    }catch(Exception $e){
+        return false;
+    }    
     return (json_last_error() == JSON_ERROR_NONE);
 }
 
@@ -36,4 +40,17 @@ function phpTransformDate($phptime){
  */
 function mysqlTransformDate($mysqldate){
     return strtotime($mysqldate);
+}
+
+function tokenValidate(){
+    $header = request()->header();
+    $data = $header['token'];
+
+    $session = session('token');
+
+    if($data != $session){
+        return false;
+    }
+
+    return true;
 }

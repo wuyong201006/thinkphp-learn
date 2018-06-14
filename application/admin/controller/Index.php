@@ -7,7 +7,11 @@ class Index extends Controller
 {
     public function index($name='admin')
     {
-		$this->assign('name', $name);
+       /*  $build = include APP_PATH.'../build.php';
+		\think\Build::run($build);
+
+
+		$this->assign('name', $name); */
 
         return json($name);
     }

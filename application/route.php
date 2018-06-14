@@ -12,9 +12,11 @@ use think\Route;
 
 Route::rule('visitor', 'admin/VisitorController/addVisitor', 'post');
 Route::rule('login', 'admin/LoginController/login', 'post');
-Route::rule('register', 'admin/login/register', 'post');
-Route::rule('new/:id', 'index/index/dbtest');
-Route::rule('json/:id', 'index/index/jsontest');
+Route::rule('register', 'admin/LoginController/register', 'post');
+Route::rule('addCoin', 'admin/UserController/addCoin', 'post');
+Route::rule('getCoin', 'admin/UserController/getCoin', 'get');
+// Route::rule('new/:id', 'index/index/dbtest');
+// Route::rule('json/:id', 'index/index/jsontest');
 
 return [
     '__pattern__' => [

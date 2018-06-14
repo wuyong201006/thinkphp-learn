@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
+use think\Request;
 
 use app\admin\model\User;
 
@@ -16,19 +17,19 @@ class LoginController extends Controller
     public function register(){
         $user = new User();
         
-        $dataJson = Request::instance()->getContent();
-
+        $dataJson = request()->getContent();
         $data = null;
+        if($dataJson && IsJson($dataJson)){
+            $data = json_decode($dataJson);
+        }
 
+        $id = getRandomId();
         $username = "";
         $password = "";
         $visitorId = "";
         $recomId = "";
         $registerDate = phpTransformDate(time());
-        if($dataJson && IsJson($dataJson)){
-            $data = json_decode($dataJson);
-        }
-
+        
         if($data && property_exists($data, "username")){
             $username = $data->username;
         }
@@ -45,12 +46,37 @@ class LoginController extends Controller
             $recomId = $data->recomId;
         }
         
-        $user->addUser($username, $password, $visitorId, $recomId, $registerDate);
+        $user->addUser($id, $username, $password, $visitorId, $recomId, $registerDate);
     }
 
-    public function login($username, $password){
+    public function login(){
         $user = new User();
-        $user->getUser($username, $password);
+        
+        $token = request()->token('token');
+        $dataJson = request()->getContent();
+
+        $data = null;
+        if($dataJson && IsJson($dataJson)){
+            $data = json_decode($dataJson);
+        }
+
+        $username;
+        $password;
+        if($data && property_exists($data, "username")){
+            $username = $data->username;
+        }
+
+        if($data && property_exists($data, "password")){
+            $password = $data->password;
+        }
+
+        if(!$username || !$password){
+            return json("username or password inCorrect");
+        }
+
+        $info = $user->getUser($username, $password);
+        $info->token = $token;
+        return json($info);
     }
 
 }

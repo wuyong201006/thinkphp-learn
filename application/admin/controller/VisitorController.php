@@ -15,8 +15,8 @@ class VisitorController extends Controller
 
     public function addVisitor(){
         $id = getRandomId();
-        $ip = Request::instance()->ip();
-        $dataJson = Request::instance()->getContent();
+        $ip = request()->ip();
+        $dataJson = request()->getContent();
 
         $data = null;
         $url = "";

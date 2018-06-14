@@ -5,57 +5,46 @@ use think\Model;
 class User extends Model
 {
 	// 设置当前模型对应的完整数据表名称
-    protected $table = 'student';
-	
-	/*// 设置当前模型的数据库连接
-	protected $connection = [
-		// 数据库类型
-        'type'        => 'mysql',
-        // 数据库连接DSN配置
-        'dsn'         => '',
-        // 服务器地址
-        'hostname'    => '127.0.0.1',
-        // 数据库名
-        'database'    => 'test',
-        // 数据库用户名
-        'username'    => 'root',
-        // 数据库密码
-        'password'    => '123456',
-        // 数据库连接端口
-        'hostport'    => '3306',
-        // 数据库连接参数
-        'params'      => [],
-        // 数据库编码默认采用utf8
-        'charset'     => 'utf8',
-        // 数据库表前缀
-        'prefix'      => '',
-	];*/
+    protected $table = 'user';
 	
 	protected function initialize()
 	{
 		parent::initialize();
 	}
 	
-	public function addUser($username, $password, $visitorId, $recomId, $registerDate)
+	public function addUser($id, $username, $password, $visitorId, $recomId, $registerDate)
 	{
 		$user = new User();
+		$user->id = $id;
 		$user->username = $username;
 		$user->password = $password;
+		$user->visitorId = $visitorId;
+		$user->recomId = $recomId;
 		$user->registerDate = $registerDate;
 		return $user->save();
 	}
 	
-	public function updateUser($password)
+	public function updateUser($id, $password)
 	{
-		$user = new User();
-		$user->password = $password;
-		return $user->save();
+		$user = User::get($id);
+		if($user){
+			$user->password = $password;
+			return $user->save();
+		}
+		
+		return null;
 	}
 	
-	public function updateUserAsset($coinId){
-		$user = new User();
-		$user->coinId = $coinId;
-		return $user;
+	public function updateUserAsset($id, $coinId){
+		$user = User::get(['id'=>$id]);
+		dump($user);
+		if($user){
+			dump($coinId);
+			$user->coinId = $coinId;
+			return $user->save();
+		}
+		
+		return null;
 	}
 
 	public function deleteUser($userId)
@@ -77,7 +66,6 @@ class User extends Model
 	
 	public function getUserById($id){
 		$object = User::get(['id'=>$id]);
-
 		return $object;
 	}
 
